@@ -2,12 +2,12 @@ import cv2 as cv
 import numpy as np
 import imutils
 from skimage.segmentation import clear_border
-from sudoku_solved import Sudoku
+from sudoku import Sudoku
 import pytesseract
 
 capture = cv.imread("sudoku.png")
 grayscale = cv.cvtColor(capture, cv.COLOR_BGR2GRAY)
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Users\\suhai\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 solved = capture.copy()
 
 class Processor:
@@ -87,7 +87,7 @@ class Processor:
                 cell = self.image[startY:endY, startX:endX]
                 digit = self.get_digit(cell)
             
-                print(digit)
+                #print(digit)
 
                 if digit is not None:
                     digit = cv.resize(digit, (28, 28))
@@ -102,7 +102,7 @@ class Processor:
 
                 else:
                     # Add the cell to the empties list
-                    self.empties.append((x, y))
+                    self.empties.append((y, x))
 
                 cells.append(row)
         return self.board
@@ -123,7 +123,7 @@ class Processor:
             x, y = empty
             originX = self.stepX * x + (self.stepX // 2)
             originY = self.stepY * y + (self.stepY // 2)
-            cv.putText(solved, str(mat[x][y]), (originX, originY), cv.FONT_HERSHEY_COMPLEX, 1, (0, 100, 0), 1)
+            cv.putText(solved, str(mat[x][y]), (originY, originX), cv.FONT_HERSHEY_COMPLEX, 1, (0, 100, 0), 1)
         return solved
 
 
